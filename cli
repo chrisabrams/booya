@@ -1,0 +1,17 @@
+#!/usr/bin/env node
+
+const cBootstrap = require('./src/commands/bootstrap');
+const cLink = require('./src/commands/link');
+const cRegister = require('./src/commands/register');
+
+require('yargs')
+  .command(...cBootstrap)
+  .command(...cLink)
+  .command(...cRegister)
+  .option('verbose', {
+    alias: 'v',
+    type: 'boolean',
+    description: 'Run with verbose logging'
+  })
+  .help()
+  .argv

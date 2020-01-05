@@ -1,0 +1,13 @@
+{
+  "name": "@booya/cli",
+  "version": "0.1.0",
+  "bin": {
+    "booya": "cli"
+  },
+  "main": "index.js",
+  "license": "Apache-2.0",
+  "dependencies": {
+    "globby": "^10.0.1",
+    "yargs": "^15.1.0"
+  }
+}
