@@ -6,7 +6,7 @@ async function linkRemote(context, { name, packages, type }) {
   // If remote is a single package
   if (type == 'package') {
 
-    exec(`yarn link ${name}`, { silent: true });
+    exec(`cd ${context} && yarn link ${name}`, { silent: true });
 
     return [name];
 
@@ -25,7 +25,7 @@ async function linkRemote(context, { name, packages, type }) {
     linked.push(packageName);
 
     exec(`cd ${wd} && yarn && yarn link`, { silent: true }); // Don't assume the remote package has been installed & linked
-    exec(`yarn link ${packageName}`, { silent: true });
+    exec(`cd ${context} && yarn link ${packageName}`, { silent: true });
 
   });
   
