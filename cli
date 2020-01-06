@@ -1,17 +1,12 @@
 #!/usr/bin/env node
+const init = require('yargs-vc/init');
 
-const cBootstrap = require('./src/commands/bootstrap');
-const cLink = require('./src/commands/link');
-const cRegister = require('./src/commands/register');
+const BootstrapVC = require('./src/commands/bootstrap');
+const LinkVC = require('./src/commands/link');
+const RegisterVC = require('./src/commands/register');
 
-require('yargs')
-  .command(...cBootstrap)
-  .command(...cLink)
-  .command(...cRegister)
-  .option('verbose', {
-    alias: 'v',
-    type: 'boolean',
-    description: 'Run with verbose logging'
-  })
-  .help()
-  .argv
+init([
+  BootstrapVC,
+  LinkVC,
+  RegisterVC
+]);

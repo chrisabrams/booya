@@ -2,75 +2,66 @@ const exec = require('../exec');
 const globby = require('globby');
 const { join } = require('path');
 const { patchProject } = require('../data');
+const YargsVC = require('yargs-vc');
 
-async function command(context) {
+class RegisterVC extends YargsVC {
 
-  try {
+  static command = 'register';
+  static description = 'Register project';
 
-    const config = require(`${context}/booya.json`);
+  async controller() {
 
-    if (!config.name) {
+    const context = process.cwd();
 
-      throw new Error('Config missing name!');
-
-    }
-
-    const type = config.type || 'package';
-
-    const project = {
-      dataVersion: 1,
-      name: config.name,
-      packageJson: config.packageJson || join(context, 'package.json'),
-      projectLinks: config.projectLinks || [],
-      path: context,
-      type,
-    }
-
-    if (type === 'monorepo') {
-
-      project.packages = config.packages || './packages';
-
-      if (!(project.packages instanceof Array)) {
-
-        project.packages = [project.packages];
-
+    try {
+  
+      const config = require(`${context}/booya.json`);
+  
+      if (!config.name) {
+  
+        throw new Error('Config missing name!');
+  
       }
-
-      project.packages = project.packages.map((package) => join(context, package));
-
+  
+      const type = config.type || 'package';
+  
+      const project = {
+        dataVersion: 1,
+        name: config.name,
+        packageJson: config.packageJson || join(context, 'package.json'),
+        projectLinks: config.projectLinks || [],
+        path: context,
+        type,
+      }
+  
+      if (type === 'monorepo') {
+  
+        project.packages = config.packages || './packages';
+  
+        if (!(project.packages instanceof Array)) {
+  
+          project.packages = [project.packages];
+  
+        }
+  
+        project.packages = project.packages.map((pkg) => join(context, pkg));
+  
+      }
+  
+      patchProject(config.name, project);
+  
+      console.log(`Registered project ${config.name} at ${context}.`);
+  
     }
-
-    patchProject(config.name, project);
-
-    console.log(`Registered project ${config.name} at ${context}.`);
-
-  }
-  catch(e) {
-
-    console.error('Could not register project');
-    console.error(e);
-
+    catch(e) {
+  
+      console.error('Could not register project');
+      console.error(e);
+  
+    }
+  
   }
 
 }
 
-module.exports = ['register', 'Register project',
-  (yargs) => {
-
-  },
-  (argv) => {
-
-    if (argv.verbose) console.info(`Registering project`)
-
-    try {
-
-      command(process.cwd())
-
-    }
-    catch(e) {
-      console.error('Could not register project')
-      console.error(e)
-    }
-
-  }
-];
+module.exports = RegisterVC;

@@ -1,6 +1,6 @@
 {
   "name": "@booya/cli",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "bin": {
     "booya": "cli"
   },
@@ -8,6 +8,6 @@
   "license": "Apache-2.0",
   "dependencies": {
     "globby": "^10.0.1",
-    "yargs": "^15.1.0"
+    "yargs-vc": "^0.2.0"
   }
 }
