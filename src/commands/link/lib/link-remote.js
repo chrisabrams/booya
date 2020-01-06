@@ -5,7 +5,7 @@ async function linkRemote(context, { name, packages, type }) {
 
   // If remote is a single package
   if (type == 'package') {
-    console.log('name', name)
+
     exec(`yarn link ${name}`, { silent: true });
 
     return [name];
@@ -19,10 +19,12 @@ async function linkRemote(context, { name, packages, type }) {
   
   paths.forEach((path) => {
   
+    const wd = path.split('/package.json')[0];
     const packageName = require(path).name;
 
     linked.push(packageName);
 
+    exec(`cd ${wd} && yarn && yarn link`, { silent: true }); // Don't assume the remote package has been installed & linked
     exec(`yarn link ${packageName}`, { silent: true });
 
   });
