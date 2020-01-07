@@ -1,5 +1,4 @@
-const exec = require('../exec');
-const globby = require('globby');
+const { getConfig } = require('../config');
 const { join } = require('path');
 const linkLocal = require('./link/lib/link-local');
 const { patchProject } = require('../data');
@@ -15,44 +14,13 @@ class RegisterVC extends YargsVC {
     const context = process.cwd();
 
     try {
+
+      const project = getConfig(context);
   
-      const config = require(`${context}/booya.json`);
-  
-      if (!config.name) {
-  
-        throw new Error('Config missing name!');
-  
-      }
-  
-      const type = config.type || 'package';
-  
-      const project = {
-        dataVersion: 1,
-        name: config.name,
-        packageJson: config.packageJson || join(context, 'package.json'),
-        projectLinks: config.projectLinks || [],
-        path: context,
-        type,
-      }
-  
-      if (type === 'monorepo') {
-  
-        project.packages = config.packages || './packages';
-  
-        if (!(project.packages instanceof Array)) {
-  
-          project.packages = [project.packages];
-  
-        }
-  
-        project.packages = project.packages.map((pkg) => join(context, pkg));
-  
-      }
-  
-      patchProject(config.name, project);
+      patchProject(project.name, project);
       linkLocal(context, project); // Automatically link project after it is registered.
 
-      console.log(`Registered project ${config.name} at ${context}.`);
+      console.log(`Registered project ${project.name} at ${context}.`);
   
     }
     catch(e) {

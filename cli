@@ -3,10 +3,14 @@ const init = require('yargs-vc/init');
 
 const BootstrapVC = require('./src/commands/bootstrap');
 const LinkVC = require('./src/commands/link');
+const PublishVC = require('./src/commands/publish');
 const RegisterVC = require('./src/commands/register');
+const VersionVC = require('./src/commands/version');
 
 init([
   BootstrapVC,
   LinkVC,
-  RegisterVC
+  PublishVC,
+  RegisterVC,
+  VersionVC,
 ]);
