@@ -10,17 +10,25 @@ function getData() {
   }
   // Datafile does not exist
   catch(e) {
-    writeData({});
 
-    return getData();
+    return initData();
+
   }
+
+}
+
+function initData() {
+
+  return {
+    projects: {}
+  };
 
 }
 
 function patchData(data) {
 
   const _data = {
-    ...readData(),
+    ...getData(),
     ...data,
   };
 
@@ -30,7 +38,7 @@ function patchData(data) {
 
 function patchProject(name, project) {
 
-  const data = readData();
+  const data = getData();
 
   if (!data.projects[name]) {
     data.projects[name] = {};
