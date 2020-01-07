@@ -34,9 +34,17 @@ class BootstrapVC extends YargsVC {
   
     for(let i = 0, l = project.projectLinks.length; i < l; i++) {
       const remoteProjectName = project.projectLinks[i];
-      console.log('remoteProjectName', remoteProjectName)
-      const linked2 = await linkRemote(project.path, data.projects[remoteProjectName]);
-      count += linked2.length;
+
+      
+      try {
+        const linked2 = await linkRemote(project.path, data.projects[remoteProjectName]);
+        count += linked2.length;
+      }
+      catch(e) {
+        console.error(`Could not link remote project ${name}`)
+        console.error(e)
+      }
+      
     }
   
     // console.log('paths\n', paths);

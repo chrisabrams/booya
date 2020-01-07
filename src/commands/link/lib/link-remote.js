@@ -1,4 +1,4 @@
-const exec = require('../../../exec');
+const exec = require('yargs-vc/exec');
 const getPackagePaths = require('./package-paths');
 
 async function linkRemote(context, { name, packages, type }) {

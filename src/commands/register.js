@@ -1,6 +1,7 @@
 const exec = require('../exec');
 const globby = require('globby');
 const { join } = require('path');
+const linkLocal = require('./link/lib/link-local');
 const { patchProject } = require('../data');
 const YargsVC = require('yargs-vc');
 
@@ -49,7 +50,8 @@ class RegisterVC extends YargsVC {
       }
   
       patchProject(config.name, project);
-  
+      linkLocal(context, project); // Automatically link project after it is registered.
+
       console.log(`Registered project ${config.name} at ${context}.`);
   
     }
